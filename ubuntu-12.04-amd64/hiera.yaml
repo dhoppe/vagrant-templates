@@ -1,0 +1,12 @@
+---
+:backends:
+  - 'yaml'
+
+:hierarchy:
+  - '%{::hostname}/%{calling_module}'
+  - '%{::domain}/%{calling_module}'
+  - '%{calling_module}'
+  - 'common'
+
+:yaml:
+  :datadir: '/vagrant/hieradata'

@@ -43,6 +43,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.synced_folder "projects", "/home/vagrant/projects",
     mount_options: ["dmode=755", "fmode=644"]
 
+  # Prefer VMware Fusion before VirtualBox
+  config.vm.provider "vmware_fusion"
+  config.vm.provider "virtualbox"
+
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
   # Example for VirtualBox:

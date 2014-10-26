@@ -13,6 +13,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box      = "dhoppe/ubuntu-12.04-amd64"
   config.vm.hostname = "ubuntu-12.vagrantup.com"
 
+  if Vagrant.has_plugin?("vagrant-cachier")
+    config.cache.scope = :box
+  end
+
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
   # `vagrant box outdated`. This is not recommended.

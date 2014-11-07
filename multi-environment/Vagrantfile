@@ -22,7 +22,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       :cpu      => "4",
     },
     :ubuntu_12 => {
-      :box      => "dhoppe/ubuntu-12.04-amd64",
+      :box      => "dhoppe/ubuntu-12.04.5-amd64",
       :hostname => "ubuntu-12.vagrantup.com",
       :ip       => "192.168.56.30",
     },

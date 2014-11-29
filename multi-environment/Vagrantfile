@@ -21,15 +21,20 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       :memory   => "1024",
       :cpu      => "4",
     },
+    :debian_8 => {
+      :box      => "dhoppe/debian-testing-amd64",
+      :hostname => "debian-8.vagrantup.com",
+      :ip       => "192.168.56.30",
+    },
     :ubuntu_12 => {
       :box      => "dhoppe/ubuntu-12.04.5-amd64",
       :hostname => "ubuntu-12.vagrantup.com",
-      :ip       => "192.168.56.30",
+      :ip       => "192.168.56.40",
     },
     :ubuntu_14 => {
       :box      => "dhoppe/ubuntu-14.04.1-amd64",
       :hostname => "ubuntu-14.vagrantup.com",
-      :ip       => "192.168.56.40",
+      :ip       => "192.168.56.50",
     },
   }
 

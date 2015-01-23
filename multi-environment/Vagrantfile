@@ -43,7 +43,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
       # Every Vagrant virtual environment requires a box to build off of.
       unless setup[:box]
-        local.vm.box = "dhoppe/debian-7.7.0-amd64"
+        local.vm.box = "dhoppe/debian-7.8.0-amd64"
       else
         local.vm.box = setup[:box]
       end

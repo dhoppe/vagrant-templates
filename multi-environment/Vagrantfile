@@ -12,28 +12,28 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   boxes = {
     :debian_6 => {
       :box      => "dhoppe/debian-6.0.10-amd64",
-      :hostname => "debian-6.vagrantup.com",
+      :hostname => "debian-6.vagrant.dev",
       :ip       => "192.168.56.10",
     },
     :debian_7 => {
-      :hostname => "debian-7.vagrantup.com",
+      :hostname => "debian-7.vagrant.dev",
       :ip       => "192.168.56.20",
       :memory   => "1024",
       :cpu      => "4",
     },
     :debian_8 => {
       :box      => "dhoppe/debian-testing-amd64",
-      :hostname => "debian-8.vagrantup.com",
+      :hostname => "debian-8.vagrant.dev",
       :ip       => "192.168.56.30",
     },
     :ubuntu_12 => {
       :box      => "dhoppe/ubuntu-12.04.5-amd64",
-      :hostname => "ubuntu-12.vagrantup.com",
+      :hostname => "ubuntu-12.vagrant.dev",
       :ip       => "192.168.56.40",
     },
     :ubuntu_14 => {
       :box      => "dhoppe/ubuntu-14.04.2-amd64",
-      :hostname => "ubuntu-14.vagrantup.com",
+      :hostname => "ubuntu-14.vagrant.dev",
       :ip       => "192.168.56.50",
     },
   }
@@ -49,6 +49,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       end
 
       local.vm.hostname = setup[:hostname]
+
+      if Vagrant.has_plugin?("landrush")
+        local.landrush.enabled = true
+      end
 
       if Vagrant.has_plugin?("vagrant-cachier")
         local.cache.scope = :machine

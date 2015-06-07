@@ -11,7 +11,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # Every Vagrant virtual environment requires a box to build off of.
   config.vm.box      = "dhoppe/debian-7.8.0-amd64-nocm"
-  config.vm.hostname = "debian-7.vagrantup.com"
+  config.vm.hostname = "debian-7.vagrant.dev"
+
+  if Vagrant.has_plugin?("landrush")
+    config.landrush.enabled = true
+  end
 
   if Vagrant.has_plugin?("vagrant-cachier")
     config.cache.scope = :box

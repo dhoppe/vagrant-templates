@@ -11,7 +11,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # Every Vagrant virtual environment requires a box to build off of.
   config.vm.box      = "dhoppe/debian-8.0.0-amd64"
-  config.vm.hostname = "debian-8.vagrantup.com"
+  config.vm.hostname = "debian-8.vagrant.dev"
+
+  if Vagrant.has_plugin?("landrush")
+    config.landrush.enabled = true
+  end
 
   if Vagrant.has_plugin?("vagrant-cachier")
     config.cache.scope = :box
@@ -45,7 +49,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
   config.vm.synced_folder "projects", "/home/vagrant/projects",
-    mount_options: ["dmode=755", "fmode=644"]
+    mount_options: ["dmode=755", "fmode=644"], type: "nfs"
 
   # Prefer VMware Fusion before VirtualBox
   config.vm.provider "vmware_fusion"

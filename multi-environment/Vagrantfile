@@ -22,7 +22,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       :cpu      => "4",
     },
     :debian_8 => {
-      :box      => "dhoppe/debian-testing-amd64",
+      :box      => "dhoppe/debian-8.0.0-amd64",
       :hostname => "debian-8.vagrant.dev",
       :ip       => "192.168.56.30",
     },

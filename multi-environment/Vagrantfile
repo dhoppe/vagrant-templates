@@ -58,6 +58,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         local.cache.scope = :machine
       end
 
+      if Vagrant.has_plugin?("vagrant-hostmanager")
+        local.hostmanager.enabled = true
+        local.hostmanager.ignore_private_ip = false
+        local.hostmanager.include_offline = true
+      end
+
       # Disable automatic box update checking. If you disable this, then
       # boxes will only be checked for updates when the user runs
       # `vagrant box outdated`. This is not recommended.

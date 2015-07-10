@@ -49,7 +49,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
   config.vm.synced_folder "projects", "/home/vagrant/projects",
-    mount_options: ["dmode=755", "fmode=644"], type: "nfs"
+    mount_options: ["dmode=755", "fmode=644"]
 
   # Prefer VMware Fusion before VirtualBox
   config.vm.provider "vmware_fusion"

@@ -38,6 +38,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     },
   }
 
+  if Vagrant.has_plugin?("vagrant-hostmanager")
+    config.hostmanager.enabled = true
+    config.hostmanager.ignore_private_ip = false
+    config.hostmanager.include_offline = true
+  end
+
   boxes.each do |name,setup|
     config.vm.define name do |local|
 
@@ -56,12 +62,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
       if Vagrant.has_plugin?("vagrant-cachier")
         local.cache.scope = :machine
-      end
-
-      if Vagrant.has_plugin?("vagrant-hostmanager")
-        local.hostmanager.enabled = true
-        local.hostmanager.ignore_private_ip = false
-        local.hostmanager.include_offline = true
       end
 
       # Disable automatic box update checking. If you disable this, then

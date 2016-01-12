@@ -1,2 +1,4 @@
 *.box
+.bundle/
 .vagrant/
+*/environments/dev/modules/

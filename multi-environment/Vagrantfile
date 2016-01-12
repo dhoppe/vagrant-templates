@@ -64,6 +64,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         local.cache.scope = :machine
       end
 
+      if Vagrant.has_plugin?("vagrant-r10k")
+        config.r10k.module_path     = 'environments/dev/modules'
+        config.r10k.puppet_dir      = 'environments/dev'
+        config.r10k.puppetfile_path = 'Puppetfile'
+      end
+
       # Disable automatic box update checking. If you disable this, then
       # boxes will only be checked for updates when the user runs
       # `vagrant box outdated`. This is not recommended.

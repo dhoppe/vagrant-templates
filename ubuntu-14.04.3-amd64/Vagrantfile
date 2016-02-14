@@ -21,6 +21,18 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.cache.scope = :box
   end
 
+  if Vagrant.has_plugin?("vagrant-hostmanager")
+    config.hostmanager.enabled = true
+    if Vagrant.has_plugin?("landrush")
+      config.hostmanager.manage_host = false
+    else
+      config.hostmanager.manage_host = true
+    end
+    config.hostmanager.manage_guest = true
+    config.hostmanager.ignore_private_ip = false
+    config.hostmanager.include_offline = true
+  end
+
   if Vagrant.has_plugin?("vagrant-r10k")
     config.r10k.module_path     = 'environments/dev/modules'
     config.r10k.puppet_dir      = 'environments/dev'

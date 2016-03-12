@@ -32,7 +32,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       :ip       => "192.168.56.40",
     },
     :ubuntu_14 => {
-      :box      => "dhoppe/ubuntu-14.04.3-amd64",
+      :box      => "dhoppe/ubuntu-14.04.4-amd64",
       :hostname => "ubuntu-14.vagrant.dev",
       :ip       => "192.168.56.50",
     },

@@ -10,31 +10,26 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # please see the online documentation at vagrantup.com.
 
   boxes = {
-    :debian_6 => {
-      :box      => "dhoppe/debian-6.0.10-amd64",
-      :hostname => "debian-6.vagrant.dev",
-      :ip       => "192.168.56.10",
-    },
     :debian_7 => {
       :box      => "dhoppe/debian-7.9.0-amd64",
       :hostname => "debian-7.vagrant.dev",
-      :ip       => "192.168.56.20",
-      :memory   => "1024",
-      :cpu      => "4",
+      :ip       => "192.168.56.10",
     },
     :debian_8 => {
       :hostname => "debian-8.vagrant.dev",
-      :ip       => "192.168.56.30",
+      :ip       => "192.168.56.20",
+      :cpu      => "2",
+      :memory   => "1024",
     },
     :ubuntu_12 => {
       :box      => "dhoppe/ubuntu-12.04.5-amd64",
       :hostname => "ubuntu-12.vagrant.dev",
-      :ip       => "192.168.56.40",
+      :ip       => "192.168.56.30",
     },
     :ubuntu_14 => {
       :box      => "dhoppe/ubuntu-14.04.4-amd64",
       :hostname => "ubuntu-14.vagrant.dev",
-      :ip       => "192.168.56.50",
+      :ip       => "192.168.56.40",
     },
   }
 

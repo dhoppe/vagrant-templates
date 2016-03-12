@@ -1,8 +1,0 @@
-mod 'puppetlabs/concat',
-  :git => 'https://github.com/puppetlabs/puppetlabs-concat'
-
-mod 'puppetlabs/inifile',
-  :git => 'https://github.com/puppetlabs/puppetlabs-inifile'
-
-mod 'puppetlabs/stdlib',
-  :git => 'https://github.com/puppetlabs/puppetlabs-stdlib'

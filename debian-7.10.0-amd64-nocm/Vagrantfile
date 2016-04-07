@@ -10,7 +10,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # please see the online documentation at vagrantup.com.
 
   # Every Vagrant virtual environment requires a box to build off of.
-  config.vm.box      = "dhoppe/debian-7.9.0-amd64"
+  config.vm.box      = "dhoppe/debian-7.10.0-amd64-nocm"
   config.vm.hostname = "debian-7.vagrant.dev"
 
   if Vagrant.has_plugin?("landrush")
@@ -33,12 +33,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.hostmanager.include_offline = true
   end
 
-  if Vagrant.has_plugin?("vagrant-r10k")
-    config.r10k.module_path     = 'environments/dev/modules'
-    config.r10k.puppet_dir      = 'environments/dev'
-    config.r10k.puppetfile_path = 'Puppetfile'
-  end
-
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
   # `vagrant box outdated`. This is not recommended.
@@ -51,7 +45,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
-  config.vm.network "private_network", ip: "192.168.56.10"
+  config.vm.network "private_network", ip: "192.168.56.11"
 
   # Create a public network, which generally matched to bridged network.
   # Bridged networks make the machine appear as another physical device on
@@ -68,10 +62,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # argument is a set of non-required options.
   config.vm.synced_folder "projects", "/home/vagrant/projects",
     mount_options: ["dmode=755", "fmode=644"]
-
-  # Prefer VMware Fusion before VirtualBox
-  config.vm.provider "vmware_fusion"
-  config.vm.provider "virtualbox"
 
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
@@ -119,12 +109,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # You will need to create the manifests directory and a manifest in
   # the file default.pp in the manifests_path directory.
   #
-  config.vm.provision "puppet" do |puppet|
-    puppet.environment       = "dev"
-    puppet.environment_path  = "environments"
-    puppet.hiera_config_path = "hiera.yaml"
-    puppet.options           = "--verbose"
-  end
+  # config.vm.provision "puppet" do |puppet|
+  #   puppet.manifests_path = "manifests"
+  #   puppet.manifest_file  = "site.pp"
+  # end
 
   # Enable provisioning with chef solo, specifying a cookbooks path, roles
   # path, and data_bags path (all relative to this Vagrantfile), and adding

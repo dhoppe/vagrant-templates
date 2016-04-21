@@ -15,6 +15,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   if Vagrant.has_plugin?("landrush")
     config.landrush.enabled = true
+    config.landrush.tld = 'vagrant.dev'
   end
 
   if Vagrant.has_plugin?("vagrant-cachier")

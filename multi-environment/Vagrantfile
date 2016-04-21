@@ -59,6 +59,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
       if Vagrant.has_plugin?("landrush")
         local.landrush.enabled = true
+        local.landrush.tld = 'vagrant.dev'
       end
 
       if Vagrant.has_plugin?("vagrant-cachier")

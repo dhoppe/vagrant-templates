@@ -9,4 +9,4 @@
   - 'common'
 
 :yaml:
-  :datadir: '/vagrant/hieradatai/%{::environment}'
+  :datadir: '/vagrant/hieradata/%{::environment}'

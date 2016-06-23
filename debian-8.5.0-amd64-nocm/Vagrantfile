@@ -10,8 +10,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # please see the online documentation at vagrantup.com.
 
   # Every Vagrant virtual environment requires a box to build off of.
-  config.vm.box      = "dhoppe/debian-7.10.0-amd64-nocm"
-  config.vm.hostname = "debian-7.vagrant.dev"
+  config.vm.box      = "dhoppe/debian-8.5.0-amd64-nocm"
+  config.vm.hostname = "debian-8.vagrant.dev"
 
   if Vagrant.has_plugin?("landrush")
     config.landrush.enabled = true
@@ -46,7 +46,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
-  config.vm.network "private_network", ip: "192.168.56.11"
+  config.vm.network "private_network", ip: "192.168.56.21"
 
   # Create a public network, which generally matched to bridged network.
   # Bridged networks make the machine appear as another physical device on

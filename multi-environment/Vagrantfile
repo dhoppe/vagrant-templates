@@ -11,7 +11,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   boxes = {
     :debian_7 => {
-      :box      => "dhoppe/debian-7.10.0-amd64",
+      :box      => "dhoppe/debian-7.11.0-amd64",
       :hostname => "debian-7.vagrant.dev",
       :ip       => "192.168.56.10",
     },
@@ -55,7 +55,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
       # Every Vagrant virtual environment requires a box to build off of.
       unless setup[:box]
-        local.vm.box = "dhoppe/debian-8.4.0-amd64"
+        local.vm.box = "dhoppe/debian-8.5.0-amd64"
       else
         local.vm.box = setup[:box]
       end

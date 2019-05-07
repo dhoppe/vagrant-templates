@@ -1,0 +1,29 @@
+mod 'camptocamp/kmod',
+  :git => 'https://github.com/camptocamp/puppet-kmod'
+
+mod 'camptocamp/systemd',
+  :git => 'https://github.com/camptocamp/puppet-systemd'
+
+mod 'puppet/archive',
+  :git => 'https://github.com/voxpupuli/puppet-archive'
+
+mod 'puppet/extlib',
+  :git => 'https://github.com/voxpupuli/puppet-extlib'
+
+mod 'puppetlabs/apt',
+  :git => 'https://github.com/puppetlabs/puppetlabs-apt'
+
+mod 'puppetlabs/concat',
+  :git => 'https://github.com/puppetlabs/puppetlabs-concat'
+
+mod 'puppetlabs/firewall',
+  :git => 'https://github.com/puppetlabs/puppetlabs-firewall'
+
+mod 'puppetlabs/inifile',
+  :git => 'https://github.com/puppetlabs/puppetlabs-inifile'
+
+mod 'puppetlabs/stdlib',
+  :git => 'https://github.com/puppetlabs/puppetlabs-stdlib'
+
+mod 'puppetlabs/translate',
+  :git => 'https://github.com/puppetlabs/puppetlabs-translate'

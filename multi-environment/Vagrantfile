@@ -1,40 +1,47 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-# Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
-VAGRANTFILE_API_VERSION = "2"
+# All Vagrant configuration is done below. The "2" in Vagrant.configure
+# configures the configuration version (we support older styles for
+# backwards compatibility). Please don't change it unless you know what
+# you're doing.
+Vagrant.configure("2") do |config|
+  # The most common configuration options are documented and commented below.
+  # For a complete reference, please see the online documentation at
+  # https://docs.vagrantup.com.
 
-Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  # All Vagrant configuration is done here. The most common configuration
-  # options are documented and commented below. For a complete reference,
-  # please see the online documentation at vagrantup.com.
-
+  # Every Vagrant development environment requires a box. You can search for
+  # boxes at https://vagrantcloud.com/search.
   boxes = {
-    :debian_7 => {
-      :box      => "dhoppe/debian-7.11.0-amd64",
-      :hostname => "debian-7.vagrant.dev",
-      :ip       => "192.168.56.10",
+    :centos_6 => {
+      :box      => "centos/6",
+      :hostname => "centos-6.vagrant.dev",
+      :ip       => "192.168.33.10",
+    },
+    :centos_7 => {
+      :box      => "centos/7",
+      :hostname => "centos-7.vagrant.dev",
+      :ip       => "192.168.33.20",
     },
     :debian_8 => {
+      :box      => "debian/jessie64",
       :hostname => "debian-8.vagrant.dev",
-      :ip       => "192.168.56.20",
-      :cpu      => "2",
-      :memory   => "1024",
+      :ip       => "192.168.33.30",
     },
-    :ubuntu_12 => {
-      :box      => "dhoppe/ubuntu-12.04.5-amd64",
-      :hostname => "ubuntu-12.vagrant.dev",
-      :ip       => "192.168.56.30",
-    },
-    :ubuntu_14 => {
-      :box      => "dhoppe/ubuntu-14.04.5-amd64",
-      :hostname => "ubuntu-14.vagrant.dev",
-      :ip       => "192.168.56.40",
+    :debian_9 => {
+      :box      => "debian/stretch64",
+      :hostname => "debian-9.vagrant.dev",
+      :ip       => "192.168.33.40",
     },
     :ubuntu_16 => {
-      :box      => "dhoppe/ubuntu-16.04.2-amd64",
+      :box      => "ubuntu/xenial64",
       :hostname => "ubuntu-16.vagrant.dev",
-      :ip       => "192.168.56.50",
+      :ip       => "192.168.33.50",
+    },
+    :ubuntu_18 => {
+      :box      => "ubuntu/bionic64",
+      :hostname => "ubuntu-18.vagrant.dev",
+      :ip       => "192.168.33.60",
     },
   }
 
@@ -50,12 +57,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.hostmanager.include_offline = true
   end
 
-  boxes.each do |name,setup|
+  boxes.each do |name, setup|
     config.vm.define name do |local|
-
-      # Every Vagrant virtual environment requires a box to build off of.
       unless setup[:box]
-        local.vm.box = "dhoppe/debian-8.8.0-amd64"
+        local.vm.box = "centos/7"
       else
         local.vm.box = setup[:box]
       end
@@ -64,161 +69,95 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
       if Vagrant.has_plugin?("landrush")
         local.landrush.enabled = true
-        local.landrush.tld = 'vagrant.dev'
+        local.landrush.tld = "vagrant.dev"
       end
 
       if Vagrant.has_plugin?("vagrant-cachier")
         local.cache.scope = :machine
       end
 
+      if Vagrant.has_plugin?("vagrant-puppet-install")
+        local.puppet_install.puppet_version = "5.5.14"
+        # local.puppet_install.puppet_version = "6.4.2"
+      end
+
       if Vagrant.has_plugin?("vagrant-r10k")
-        config.r10k.module_path     = 'environments/dev/modules'
-        config.r10k.puppet_dir      = 'environments/dev'
-        config.r10k.puppetfile_path = 'Puppetfile'
+        local.r10k.puppet_dir = "environments/dev"
+        local.r10k.puppetfile_path = "environments/dev/Puppetfile"
+        local.r10k.module_path = "environments/dev/modules"
+      end
+
+      if Vagrant.has_plugin?("vagrant-vbguest")
+        local.vbguest.auto_update = true
       end
 
       # Disable automatic box update checking. If you disable this, then
       # boxes will only be checked for updates when the user runs
       # `vagrant box outdated`. This is not recommended.
-      # config.vm.box_check_update = false
-
+      local.vm.box_check_update = true
+    
       # Create a forwarded port mapping which allows access to a specific port
       # within the machine from a port on the host machine. In the example below,
       # accessing "localhost:8080" will access port 80 on the guest machine.
+      # NOTE: This will enable public access to the opened port
       # config.vm.network "forwarded_port", guest: 80, host: 8080
-
+    
+      # Create a forwarded port mapping which allows access to a specific port
+      # within the machine from a port on the host machine and only allow access
+      # via 127.0.0.1 to disable public access
+      # config.vm.network "forwarded_port", guest: 80, host: 8080, host_ip: "127.0.0.1"
+    
       # Create a private network, which allows host-only access to the machine
       # using a specific IP.
       local.vm.network "private_network", ip: setup[:ip]
-
+    
       # Create a public network, which generally matched to bridged network.
       # Bridged networks make the machine appear as another physical device on
       # your network.
       # config.vm.network "public_network"
-
-      # If true, then any SSH connections made will enable agent forwarding.
-      # Default value: false
-      # config.ssh.forward_agent = true
-
+    
       # Share an additional folder to the guest VM. The first argument is
       # the path on the host to the actual folder. The second argument is
       # the path on the guest to mount the folder. And the optional third
       # argument is a set of non-required options.
       local.vm.synced_folder "projects", "/home/vagrant/projects",
         mount_options: ["dmode=755", "fmode=644"]
-
-      # Prefer VMware Fusion before VirtualBox
-      local.vm.provider "vmware_fusion"
-      local.vm.provider "virtualbox"
-
+    
       # Provider-specific configuration so you can fine-tune various
       # backing providers for Vagrant. These expose provider-specific options.
       # Example for VirtualBox:
       #
       local.vm.provider "virtualbox" do |vb|
-        # Don't boot with headless mode
+        # Display the VirtualBox GUI when booting the machine
         vb.gui = false
-
-        # Use VBoxManage to customize the VM. For example to change memory:
+    
+        # Customize the amount of memory on the VM:
         unless setup[:memory]
-          vb.customize ["modifyvm", :id, "--memory", "512"]
+          vb.memory = "1024"
         else
-          vb.customize ["modifyvm", :id, "--memory", setup[:memory]]
+          vb.memory = setup[:memory]
         end
 
-        unless setup[:cpu]
-          vb.customize ["modifyvm", :id, "--cpus", "2"]
+        # Customize the amount of cpus on the VM:
+        unless setup[:cpus]
+          vb.cpus = "2"
         else
-          vb.customize ["modifyvm", :id, "--cpus", setup[:cpu]]
-        end
-      end
-
-      local.vm.provider "vmware_fusion" do |vb|
-        # Don't boot with headless mode
-        vb.gui = false
-
-        # Use VBoxManage to customize the VM. For example to change memory:
-        unless setup[:memory]
-          vb.vmx["memsize"] = "512"
-        else
-          vb.vmx["memsize"] = setup[:memory]
-        end
-
-        unless setup[:cpu]
-          vb.vmx["numvcpus"] = "2"
-        else
-          vb.vmx["numvcpus"] = setup[:cpu]
+          vb.cpus = setup[:cpus]
         end
       end
       #
-      # View the documentation for the provider you're using for more
+      # View the documentation for the provider you are using for more
       # information on available options.
-
-      # Enable provisioning with CFEngine. CFEngine Community packages are
-      # automatically installed. For example, configure the host as a
-      # policy server and optionally a policy file to run:
-      #
-      # config.vm.provision "cfengine" do |cf|
-      #   cf.am_policy_hub = true
-      #   # cf.run_file = "motd.cf"
-      # end
-      #
-      # You can also configure and bootstrap a client to an existing
-      # policy server:
-      #
-      # config.vm.provision "cfengine" do |cf|
-      #   cf.policy_server_address = "10.0.2.15"
-      # end
-
-      # Enable provisioning with Puppet stand alone.  Puppet manifests
-      # are contained in a directory path relative to this Vagrantfile.
-      # You will need to create the manifests directory and a manifest in
-      # the file default.pp in the manifests_path directory.
-      #
+    
+      # Enable provisioning with a shell script. Additional provisioners such as
+      # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
+      # documentation for more information about their specific syntax and use.
       local.vm.provision "puppet" do |puppet|
-        puppet.environment       = "dev"
-        puppet.environment_path  = "environments"
-        puppet.hiera_config_path = "hiera.yaml"
-        puppet.options           = "--verbose"
+        puppet.environment_path = "environments"
+        puppet.environment = "dev"
+        puppet.hiera_config_path = "environments/dev/hiera.yaml"
+        puppet.options = "--verbose"
       end
-
-      # Enable provisioning with chef solo, specifying a cookbooks path, roles
-      # path, and data_bags path (all relative to this Vagrantfile), and adding
-      # some recipes and/or roles.
-      #
-      # config.vm.provision "chef_solo" do |chef|
-      #   chef.cookbooks_path = "../my-recipes/cookbooks"
-      #   chef.roles_path = "../my-recipes/roles"
-      #   chef.data_bags_path = "../my-recipes/data_bags"
-      #   chef.add_recipe "mysql"
-      #   chef.add_role "web"
-      #
-      #   # You may also specify custom JSON attributes:
-      #   chef.json = { mysql_password: "foo" }
-      # end
-
-      # Enable provisioning with chef server, specifying the chef server URL,
-      # and the path to the validation key (relative to this Vagrantfile).
-      #
-      # The Opscode Platform uses HTTPS. Substitute your organization for
-      # ORGNAME in the URL and validation key.
-      #
-      # If you have your own Chef Server, use the appropriate URL, which may be
-      # HTTP instead of HTTPS depending on your configuration. Also change the
-      # validation key to validation.pem.
-      #
-      # config.vm.provision "chef_client" do |chef|
-      #   chef.chef_server_url = "https://api.opscode.com/organizations/ORGNAME"
-      #   chef.validation_key_path = "ORGNAME-validator.pem"
-      # end
-      #
-      # If you're using the Opscode platform, your validator client is
-      # ORGNAME-validator, replacing ORGNAME with your organization name.
-      #
-      # If you have your own Chef Server, the default validation client name is
-      # chef-validator, unless you changed the configuration.
-      #
-      #   chef.validation_client_name = "ORGNAME-validator"
     end
   end
 end

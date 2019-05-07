@@ -74,6 +74,12 @@ Vagrant.configure("2") do |config|
 
       if Vagrant.has_plugin?("vagrant-cachier")
         local.cache.scope = :machine
+
+        if setup[:box] =~ /ubuntu/
+          local.cache.synced_folder_opts = {
+            owner: "_apt"
+          }
+        end
       end
 
       if Vagrant.has_plugin?("vagrant-puppet-install")
